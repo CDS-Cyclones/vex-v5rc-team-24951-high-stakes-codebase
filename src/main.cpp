@@ -74,6 +74,7 @@ void usercontrol(void) {
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
+    Drivetrain.arcade(Controller.Axis3.position(), Controller.Axis4.position());
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
@@ -95,4 +96,5 @@ int main() {
   while (true) {
     wait(100, msec);
   }
+
 }
