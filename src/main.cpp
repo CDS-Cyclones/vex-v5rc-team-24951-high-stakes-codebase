@@ -23,15 +23,15 @@ competition Competition;
 int INDEX_BLUE = 1;
 //colorRange and saturationRange is the max diff in total RGB value and Saturation Range such that it'll detect an object as Blue
 //A ColorRange of 50 and saturation Range is quite high, these numbers need to be adjusted
-double COLOR_RANGE = 50.00;
-double SATURATION_RANGE = 0.80;
-int RGB_BLUE_R = 55;
-int RGB_BLUE_B = 87;
-int RGB_BLUE_G = 102;
+double COLOR_RANGE = 10;
+double SATURATION_RANGE = 0.20;
+int RGB_BLUE_R = 1;
+int RGB_BLUE_B = 89;
+int RGB_BLUE_G = 145;
 //this is the Blue that the vision will detect as Blue
 aivision::colordesc Blue = aivision::colordesc(INDEX_BLUE,RGB_BLUE_R, RGB_BLUE_B,RGB_BLUE_G,COLOR_RANGE,SATURATION_RANGE);
 //AI VISION OBJECT, in port 13
-aivision AI = aivision(PORT13, Blue);
+aivision AI = aivision(PORT13, aivision::ALL_AIOBJS);
 
 
 // define your global instances of motors and other devices here
@@ -111,7 +111,7 @@ int main() {
   // Prevent main from exiting with an infinite loop.
   while (true) {
     //updates the AI vision
-    AI.takeSnapshot(Blue);
+    AI.takeSnapshot(aivision::ALL_AIOBJS);
     //size of the object array in the last AI Snapshot
     int size = sizeof(AI.objects)/sizeof(AI.objects[0]);
     //Clear Screen so each time it refreshes it draws anew
