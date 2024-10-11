@@ -13,8 +13,8 @@ const double WHEEL_CIRCUMFERENCE = 3.25 * atan(1) * 4;
  * Wheelbase - dist. b/w  drive shafts of the two drive wheels on the side.
  * @link https://kb.vex.com/hc/en-us/articles/360057008811-Finding-Your-Robot-s-Track-Width-and-Wheelbase
  */
-const double TRACK_WIDTH = 343;
-const double WHEELBASE = 270;
+const double TRACK_WIDTH = 284.48;
+const double WHEELBASE = 127;
 
 /**
  * If external gears used, GR = # of driven gear teeth / # of driving gear teeth
