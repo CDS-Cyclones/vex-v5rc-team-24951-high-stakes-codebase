@@ -11,11 +11,28 @@
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
+#include "vector"
+#include "iostream"
 
 using namespace vex;
+using namespace std;
 
 // A global instance of competition
 competition Competition;
+//The indexes for colors goes from 1-7, best to use diff indexex for each color
+int INDEX_BLUE = 1;
+//colorRange and saturationRange is the max diff in total RGB value and Saturation Range such that it'll detect an object as Blue
+//A ColorRange of 50 and saturation Range is quite high, these numbers need to be adjusted
+double COLOR_RANGE = 50.00;
+double SATURATION_RANGE = 0.80;
+int RGB_BLUE_R = 55;
+int RGB_BLUE_B = 87;
+int RGB_BLUE_G = 102;
+//this is the Blue that the vision will detect as Blue
+aivision::colordesc Blue = aivision::colordesc(INDEX_BLUE,RGB_BLUE_R, RGB_BLUE_B,RGB_BLUE_G,COLOR_RANGE,SATURATION_RANGE);
+//AI VISION OBJECT, in port 13
+aivision AI = aivision(PORT13, Blue);
+
 
 // define your global instances of motors and other devices here
 
@@ -87,12 +104,28 @@ int main() {
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
-
+  
   // Run the pre-autonomous function.
   pre_auton();
-
+  
   // Prevent main from exiting with an infinite loop.
   while (true) {
+    //updates the AI vision
+    AI.takeSnapshot(Blue);
+    //size of the object array in the last AI Snapshot
+    int size = sizeof(AI.objects)/sizeof(AI.objects[0]);
+    //Clear Screen so each time it refreshes it draws anew
+     Brain.Screen.clearScreen();
+
+  
+    //prints out objectCount
+    cout<<AI.objectCount<<endl;
+    //drawing a rectange at each object's X, Y coords with the respective width and height for each iteration on the brain screen
+    for(int i = 0 ; i< size; i++){
+      Brain.Screen.drawRectangle(AI.objects[i].originX, AI.objects[i].originY, AI.objects[i].width, AI.objects[i].height);
+    }
+  
+
     wait(100, msec);
   }
 }
