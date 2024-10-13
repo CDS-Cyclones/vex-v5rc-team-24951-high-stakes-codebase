@@ -74,10 +74,9 @@ void usercontrol(void) {
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    // Controller.rumble(rumbleLong);
 
     if (Controller.ButtonA.PRESSED) {
-      if (!isClampedOn)
+      if (isClampedOn)
         clampOff();
       else 
         clampOn();

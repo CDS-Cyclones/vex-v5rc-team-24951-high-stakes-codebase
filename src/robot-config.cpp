@@ -5,7 +5,7 @@ using namespace vex;
 // A global instance of brain used for printing to the V5 brain screen
 brain Brain;
 
-triport::port CLAMP_PNEUMATIC_PORT = Brain.ThreeWirePort.A;
+triport::port CLAMP_PNEUMATIC_PORT = Brain.ThreeWirePort.E;
 
 digital_out ClampPneumatic = digital_out(CLAMP_PNEUMATIC_PORT);
 
@@ -22,16 +22,16 @@ bool isClampedOn;
 void clampOn(void) {
   ClampPneumatic.set(false);
 
-  isClampedOn = false;
+  isClampedOn = true;
 }
 
-/** 
+/**
  * Retract the clamp's actuator
  */
 void clampOff(void) {
   ClampPneumatic.set(true);
 
-  isClampedOn = true;
+  isClampedOn = false;
 }
 
 /**
