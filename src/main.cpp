@@ -74,7 +74,11 @@ void usercontrol(void) {
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    Drivetrain.arcade(Controller.Axis3.position(), Controller.Axis4.position());
+
+    // Changes turn speed based on float value below
+    float turnMultiplier = 0.5;
+
+    Drivetrain.arcade(Controller.Axis3.position(), turnMultiplier * Controller.Axis4.position());
 
     if (Controller.ButtonA.PRESSED) {
       if (isClampedOn)
