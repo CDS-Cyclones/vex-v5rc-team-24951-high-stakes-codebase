@@ -74,6 +74,7 @@ void usercontrol(void) {
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
+    Drivetrain.arcade(Controller.Axis3.position(), Controller.Axis4.position());
 
     if (Controller.ButtonA.PRESSED) {
       if (isClampedOn)
@@ -102,4 +103,5 @@ int main() {
   while (true) {
     wait(100, msec);
   }
+
 }
