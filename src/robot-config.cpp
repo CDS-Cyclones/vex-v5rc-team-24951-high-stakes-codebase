@@ -2,6 +2,9 @@
 
 using namespace vex;
 
+// A global instance of brain used for printing to the V5 brain screen
+brain Brain;
+
 // CONSTANTS
 const distanceUnits DISTANCE_UNITS = mm;
 
@@ -40,10 +43,15 @@ const bool RIGHT_FRONT_MOTOR_INVERTED = true;
 const bool RIGHT_MIDDLE_MOTOR_INVERTED = true;
 const bool RIGHT_BACK_MOTOR_INVERTED = true;
 
-// A global instance of brain used for printing to the V5 brain screen
-brain Brain;
+triport::port CLAMP_PNEUMATIC_PORT = Brain.ThreeWirePort.E;
 
-// Instances of left side motors
+digital_out ClampPneumatic = digital_out(CLAMP_PNEUMATIC_PORT);
+
+/**
+ * Whether the clamp is on
+ */
+bool isClampedOn;
+
 motor LeftFrontMotor = motor(LEFT_FRONT_MOTOR_PORT, DRIVETRAIN_MOTOR_GEAR_RATIO, LEFT_FRONT_MOTOR_INVERTED);
 motor LeftMiddleMotor = motor(LEFT_MIDDLE_MOTOR_PORT, DRIVETRAIN_MOTOR_GEAR_RATIO, LEFT_MIDDLE_MOTOR_INVERTED);
 motor LeftBackMotor = motor(LEFT_BACK_MOTOR_PORT, DRIVETRAIN_MOTOR_GEAR_RATIO, LEFT_BACK_MOTOR_INVERTED);
@@ -58,11 +66,30 @@ drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, WHEEL_CIRCUM
 
 controller Controller = controller();
 
+/** 
+ * Extend the clamp's actuator
+ */
+void clampOn(void) {
+  ClampPneumatic.set(false);
+
+  isClampedOn = true;
+}
+
+/**
+ * Retract the clamp's actuator
+ */
+void clampOff(void) {
+  ClampPneumatic.set(true);
+
+  isClampedOn = false;
+}
+
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
  *
  * This should be called at the start of your int main function.
  */
 void vexcodeInit(void) {
-  // Nothing to initialize
+  // Retract clamp actuator at launch
+  clampOff();
 }

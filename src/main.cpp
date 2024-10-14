@@ -76,6 +76,13 @@ void usercontrol(void) {
     // ........................................................................
     Drivetrain.arcade(Controller.Axis3.position(), Controller.Axis4.position());
 
+    if (Controller.ButtonA.PRESSED) {
+      if (isClampedOn)
+        clampOff();
+      else 
+        clampOn();
+    }
+
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
