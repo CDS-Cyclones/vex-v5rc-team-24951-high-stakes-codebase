@@ -22,8 +22,6 @@ extern controller Controller;
 
 extern inertial Inertial;
 
-
-
 /**
  * Whether the clamp is on
  */

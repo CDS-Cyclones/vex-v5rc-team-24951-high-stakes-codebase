@@ -93,36 +93,27 @@ void clampOff(void) {
  * This should be called at the start of your int main function.
  */
 void vexcodeInit(void) {
-//Calibrate inertial sensor **MUST BE STATIONARY**
-
+  //Calibrate inertial sensor **MUST BE STATIONARY**
   Inertial.calibrate(3);
 
-// Print that the Inertial Sensor is calibrating while
-// waiting for it to finish calibrating.
+  // Print that the Inertial Sensor is calibrating while waiting for it to finish calibrating.
+  while(Inertial.isCalibrating()){
+    Brain.Screen.clearScreen();
 
-while(Inertial.isCalibrating()){
-  Brain.Screen.clearScreen();
+    // Sets coordinates of where to print on brain
+    Brain.Screen.setCursor(10,10);
+    Brain.Screen.print("Inertial Calibrating");
+    wait(50, msec);
+  }
 
-  // Sets coordinates of where to print on brain
-  Brain.Screen.setCursor(10,10);
-  Brain.Screen.print("Inertial Calibrating");
-  wait(50, msec);
-}
-
-//Print that Inertial is calibrated
-Brain.Screen.clearScreen();
-Brain.Screen.setCursor(10,10);
-Brain.Screen.print("Inertial Calibrated");
-
-// Resets heading of inertial to zero
-
-Inertial.resetHeading();
-while(1){
+  //Print that Inertial is calibrated
   Brain.Screen.clearScreen();
   Brain.Screen.setCursor(10,10);
-  Brain.Screen.print(Inertial.heading(deg));
-}
+  Brain.Screen.print("Inertial Calibrated");
 
-    // Retract clamp actuator at launch
+  // Resets heading of inertial to zero
+  Inertial.resetHeading();
+
+  // Retract clamp actuator at launch
   clampOff();
 }
