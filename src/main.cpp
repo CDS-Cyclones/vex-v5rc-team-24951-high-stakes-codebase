@@ -21,8 +21,7 @@ using namespace std;
 competition Competition;
 //The indexes for colors goes from 1-7, best to use diff indexex for each color
 int INDEX_BLUE = 1;
-//colorRange and saturationRange is the max diff in total RGB value and Saturation Range such that it'll detect an object as Blue
-//A ColorRange of 50 and saturation Range is quite high, these numbers need to be adjusted
+//FINAL numbers for Color Range, Saturation Range, RGB values, do NOT TOUCH
 double COLOR_RANGE = 10;
 double SATURATION_RANGE = 0.20;
 int RGB_BLUE_R = 1;
@@ -119,7 +118,7 @@ int main() {
 
   
     //prints out objectCount
-    cout<<AI.objectCount<<endl;
+    
     //drawing a rectange at each object's X, Y coords with the respective width and height for each iteration on the brain screen
     for(int i = 0 ; i< size; i++){
       Brain.Screen.drawRectangle(AI.objects[i].originX, AI.objects[i].originY, AI.objects[i].width, AI.objects[i].height);
