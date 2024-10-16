@@ -11,11 +11,27 @@
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
+#include "vector"
+#include "iostream"
 
 using namespace vex;
+using namespace std;
 
 // A global instance of competition
 competition Competition;
+//The indexes for colors goes from 1-7, best to use diff indexex for each color
+int INDEX_BLUE = 1;
+//FINAL numbers for Color Range, Saturation Range, RGB values, do NOT TOUCH
+double COLOR_RANGE = 10;
+double SATURATION_RANGE = 0.20;
+int RGB_BLUE_R = 1;
+int RGB_BLUE_B = 89;
+int RGB_BLUE_G = 145;
+//this is the Blue that the vision will detect as Blue
+aivision::colordesc Blue = aivision::colordesc(INDEX_BLUE,RGB_BLUE_R, RGB_BLUE_B,RGB_BLUE_G,COLOR_RANGE,SATURATION_RANGE);
+//AI VISION OBJECT, in port 13
+aivision AI = aivision(PORT13, aivision::ALL_AIOBJS);
+
 
 // define your global instances of motors and other devices here
 
@@ -51,6 +67,30 @@ void autonomous(void) {
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
+    
+  // Run the pre-autonomous function.
+  pre_auton();
+  
+  // Prevent main from exiting with an infinite loop.
+  while (true) {
+    //updates the AI vision
+    AI.takeSnapshot(aivision::ALL_AIOBJS);
+    //size of the object array in the last AI Snapshot
+    int size = sizeof(AI.objects)/sizeof(AI.objects[0]);
+    //Clear Screen so each time it refreshes it draws anew
+     Brain.Screen.clearScreen();
+
+  
+    //prints out objectCount
+    
+    //drawing a rectange at each object's X, Y coords with the respective width and height for each iteration on the brain screen
+    for(int i = 0 ; i< size; i++){
+      Brain.Screen.drawRectangle(AI.objects[i].originX, AI.objects[i].originY, AI.objects[i].width, AI.objects[i].height);
+    }
+  
+
+    wait(100, msec);
+  }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -100,12 +140,6 @@ int main() {
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
 
-  // Run the pre-autonomous function.
-  pre_auton();
 
-  // Prevent main from exiting with an infinite loop.
-  while (true) {
-    wait(100, msec);
-  }
-
+}
 }
