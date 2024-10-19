@@ -68,8 +68,9 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 
 void usercontrol(void) {
-  // User control code here, inside the loop
   int32_t forward, turn;
+
+  // User control code here, inside the loop
   while (1) {
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo
@@ -82,10 +83,6 @@ void usercontrol(void) {
 
     forward = Controller.Axis3.position();
     turn = Controller.Axis1.position() * TURN_MULTIPLER;
-
-    Controller.Screen.clearScreen();
-    Controller.Screen.setCursor(5,5);
-    Controller.Screen.print(turn);
 
     // Apply deadzones
     if (abs(forward) < DEADZONE) {
