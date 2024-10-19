@@ -14,6 +14,10 @@
 
 using namespace vex;
 
+const int DEADZONE = 10; // Adjust this value as needed
+const double TURN_MULTIPLER = 0.7; // Define turn multiplier as per your requirements
+
+
 // A global instance of competition
 competition Competition;
 
@@ -65,6 +69,7 @@ void autonomous(void) {
 
 void usercontrol(void) {
   // User control code here, inside the loop
+  int32_t forward, turn;
   while (1) {
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo
@@ -75,10 +80,22 @@ void usercontrol(void) {
     // update your motors, etc.
     // ........................................................................
 
-    // Changes turn speed based on float value below
-    float turnMultiplier = 0.5;
+    forward = Controller.Axis3.position();
+    turn = Controller.Axis1.position() * TURN_MULTIPLER;
 
-    Drivetrain.arcade(Controller.Axis3.position(), turnMultiplier * Controller.Axis4.position());
+    Controller.Screen.clearScreen();
+    Controller.Screen.setCursor(5,5);
+    Controller.Screen.print(turn);
+
+    // Apply deadzones
+    if (abs(forward) < DEADZONE) {
+        forward = 0;
+    }
+    if (abs(turn) < DEADZONE) {
+        turn = 0;
+    }
+
+    Drivetrain.arcade(forward, turn);
 
     if (Controller.ButtonA.PRESSED) {
       if (isClampedOn)
