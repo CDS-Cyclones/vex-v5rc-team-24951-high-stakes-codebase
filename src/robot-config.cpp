@@ -112,8 +112,11 @@ void vexcodeInit(void) {
   Brain.Screen.print("Inertial Calibrated");
 
   // Resets heading of inertial to zero
-  Inertial.resetHeading();
-
+  Inertial.resetHeading();  
+  
   // Retract clamp actuator at launch
   clampOff();
+
+  // Rumble controller to indicate that initialization complete
+  Controller.rumble(".");
 }
