@@ -17,6 +17,18 @@ using namespace vex;
 const int DEADZONE = 10; // Adjust this value as needed
 const double TURN_MULTIPLER = 0.7; // Define turn multiplier as per your requirements
 
+// ROBOT CONSTANTS
+const double WHEEL_RADIUS = 3.25/2.0;
+
+// CONVERSION FACTORS & PHYSICS CONSTANTS
+const double RAD_TO_DEG_CONV_FAC = 0.01745329251; // rad/deg
+const double GRAV_ACC_UNIT_EARTH = 9.81; // ms^-2
+
+/**
+ * Rest time b/w user control loop's cycles
+ */
+double T = 0.02;
+const timeUnits T_UNITS = sec;
 
 // A global instance of competition
 competition Competition;
@@ -68,42 +80,59 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 
 void usercontrol(void) {
-  int32_t forward, turn;
+    int32_t forward, turn;
+    double heading, ang_vel_mag, acc_y, acc_x, vel_mag, vel_y, vel_x;
 
-  // User control code here, inside the loop
-  while (1) {
-    // This is the main execution loop for the user control program.
-    // Each time through the loop your program should update motor + servo
-    // values based on feedback from the joysticks.
+    // User control code here, inside the loop
+    while (1) {
+        // This is the main execution loop for the user control program.
+        // Each time through the loop your program should update motor + servo
+        // values based on feedback from the joysticks.
 
-    // ........................................................................
-    // Insert user code here. This is where you use the joystick values to
-    // update your motors, etc.
-    // ........................................................................
+        // ........................................................................
+        // Insert user code here. This is where you use the joystick values to
+        // update your motors, etc.
+        // ........................................................................
 
-    forward = Controller.Axis3.position();
-    turn = Controller.Axis1.position() * TURN_MULTIPLER;
+        forward = Controller.Axis3.position();
+        turn = Controller.Axis1.position() * TURN_MULTIPLER;
 
-    // Apply deadzones
-    if (abs(forward) < DEADZONE) {
-        forward = 0;
+        // Apply deadzones
+        if (abs(forward) < DEADZONE) {
+            forward = 0;
+        }
+        if (abs(turn) < DEADZONE) {
+            turn = 0;
+        }
+
+        Drivetrain.arcade(forward, turn);
+
+        // EMPIRICALLY: y axis - fwd | x-axis - right
+
+        // Read values off the sensors
+        heading = (360.0 - Inertial.heading(deg)) * RAD_TO_DEG_CONV_FAC; // in rad; invert direction by 360 - value
+        ang_vel_mag = Drivetrain.velocity(dps) * RAD_TO_DEG_CONV_FAC;  // in rad/s
+        acc_y = Inertial.acceleration(yaxis) * GRAV_ACC_UNIT_EARTH; // in m/s^2
+        acc_x = Inertial.acceleration(xaxis) * GRAV_ACC_UNIT_EARTH; // in m/s^2
+
+        // Convert angular speed to translational speed
+        vel_mag = ang_vel_mag  * WHEEL_RADIUS;
+
+        // Split translational velocity into components
+        vel_y = vel_mag * sin(heading);
+        vel_x = vel_mag * cos(heading);
+
+        // Control clamp with ButtonA
+        if (Controller.ButtonA.PRESSED) {
+            if (isClampedOn)
+                clampOff();
+            else
+                clampOn();
+        }
+
+        wait(T, T_UNITS); // Sleep the task for a short amount of time to
+                          // prevent wasted resources.
     }
-    if (abs(turn) < DEADZONE) {
-        turn = 0;
-    }
-
-    Drivetrain.arcade(forward, turn);
-
-    if (Controller.ButtonA.PRESSED) {
-      if (isClampedOn)
-        clampOff();
-      else 
-        clampOn();
-    }
-
-    wait(20, msec); // Sleep the task for a short amount of time to
-                    // prevent wasted resources.
-  }
 }
 
 //
