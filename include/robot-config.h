@@ -1,3 +1,5 @@
+#include "odometry.h"
+
 using namespace vex;
 
 extern brain Brain;
@@ -21,6 +23,8 @@ extern drivetrain Drivetrain;
 extern controller Controller;
 
 extern inertial Inertial;
+
+extern odometry Odometry;
 
 /**
  * Whether the clamp is on

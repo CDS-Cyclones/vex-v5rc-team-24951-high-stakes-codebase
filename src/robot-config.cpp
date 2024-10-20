@@ -1,5 +1,7 @@
 #include "vex.h"
 
+#include "odometry.h"
+
 using namespace vex;
 
 // A global instance of brain used for printing to the V5 brain screen
@@ -69,6 +71,8 @@ drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, WHEEL_CIRCUM
 
 controller Controller = controller();
 
+odometry Odometry = odometry();
+
 /** 
  * Extend the clamp's actuator
  */
@@ -116,6 +120,9 @@ void vexcodeInit(void) {
   
   // Retract clamp actuator at launch
   clampOff();
+
+  // Initialize position relative to left corner of the filed facing right to (0, 0, 0)
+  Odometry.reset();
 
   // Rumble controller to indicate that initialization complete
   Controller.rumble(".");
