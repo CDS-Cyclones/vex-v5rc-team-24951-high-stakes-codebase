@@ -20,13 +20,16 @@ using namespace std;
 // A global instance of competition
 competition Competition;
 //The indexes for colors goes from 1-7, best to use diff indexex for each color
-int INDEX_BLUE = 1;
+const int INDEX_BLUE = 1;
 //FINAL numbers for Color Range, Saturation Range, RGB values, do NOT TOUCH
-double COLOR_RANGE = 10;
-double SATURATION_RANGE = 0.20;
-int RGB_BLUE_R = 1;
-int RGB_BLUE_B = 89;
-int RGB_BLUE_G = 145;
+const double COLOR_RANGE = 10;
+const double SATURATION_RANGE = 0.20;
+const int RGB_BLUE_R = 1;
+const int RGB_BLUE_B = 89;
+const int RGB_BLUE_G = 145;
+//the below values need to be changed
+const int AI_Vision_Center_X = 160;
+const int AI_Vision_Center_Y = 120;
 //this is the Blue that the vision will detect as Blue
 aivision::colordesc Blue = aivision::colordesc(INDEX_BLUE,RGB_BLUE_R, RGB_BLUE_B,RGB_BLUE_G,COLOR_RANGE,SATURATION_RANGE);
 //AI VISION OBJECT, in port 13
@@ -84,9 +87,18 @@ void autonomous(void) {
     //prints out objectCount
     
     //drawing a rectange at each object's X, Y coords with the respective width and height for each iteration on the brain screen
+    int LargestObjectSizeIndex = 0;
     for(int i = 0 ; i< size; i++){
       Brain.Screen.drawRectangle(AI.objects[i].originX, AI.objects[i].originY, AI.objects[i].width, AI.objects[i].height);
+      if (AI.objects[i].width * AI.objects[i].height > LargestObjectSizeIndex){
+        LargestObjectSizeIndex = i;
+      }
     }
+    if (!(AI.objects[LargestObjectSizeIndex].originX == 160)){
+      //will do the math for the turning later, too lazy rn lol
+      Drivetrain.turnFor(AI.objects[LargestObjectSizeIndex].originX - AI_Vision_Center_X * (180/3.14),degrees);
+    }
+    
   
 
     wait(100, msec);
