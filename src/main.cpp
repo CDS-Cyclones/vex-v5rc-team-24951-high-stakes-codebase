@@ -96,7 +96,11 @@ void autonomous(void) {
     }
     if (!(AI.objects[LargestObjectSizeIndex].originX == 160)){
       //will do the math for the turning later, too lazy rn lol
-      Drivetrain.turnFor(AI.objects[LargestObjectSizeIndex].originX - AI_Vision_Center_X * (180/3.14),degrees);
+      int turnLeftOrRight = 1;
+      if (AI.objects[LargestObjectSizeIndex].originX > 160){
+        turnLeftOrRight = -1;
+      }
+      Drivetrain.turnFor(turnLeftOrRight,degrees);
     }
     
   
