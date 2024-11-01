@@ -13,6 +13,8 @@ extern motor RightFrontMotor;
 extern motor RightMiddleMotor;
 extern motor RightBackMotor;
 
+extern motor ElevatorMotor;
+
 extern motor_group LeftDriveSmart;
 extern motor_group RightDriveSmart;
 

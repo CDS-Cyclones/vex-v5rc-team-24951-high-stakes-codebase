@@ -87,6 +87,22 @@ void usercontrol(void) {
         clampOn();
     }
 
+    if(Controller.ButtonX.PRESSED){
+      ElevatorMotor.setVelocity(60,percent);
+      ElevatorMotor.spin(forward);
+    } else if(Controller.ButtonB.PRESSED) {
+      ElevatorMotor.setVelocity(60,percent);
+      ElevatorMotor.spin(reverse);
+    }
+
+    if(Controller.ButtonX.PRESSED){
+      ElevatorMotor.stop();
+    }
+
+    if(Controller.ButtonB.PRESSED) {
+      ElevatorMotor.stop();
+    }
+
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
