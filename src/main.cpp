@@ -76,7 +76,7 @@ void usercontrol(void) {
     // ........................................................................
 
     // Changes turn speed based on float value below
-    float turnMultiplier = 0.5;
+    float turnMultiplier = 0.75;
 
     Drivetrain.arcade(Controller.Axis3.position(), turnMultiplier * Controller.Axis4.position());
 
