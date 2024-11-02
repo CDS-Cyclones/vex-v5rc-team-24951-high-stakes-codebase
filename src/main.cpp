@@ -19,6 +19,7 @@ competition Competition;
 
 const int DEADZONE = 10; // Adjust this value as needed
 const double TURN_MULTIPLER = 0.75; // Define turn multiplier as per your requirements
+const double AUTON_DRIVE_TIME_SEC = 1;
 
 // define your global instances of motors and other devices here
 
@@ -55,20 +56,13 @@ void autonomous(void) {
     // Insert autonomous user code here.
     // ..........................................................................
 
-
-    LeftDriveSmart.setVelocity(50, percent);
-    RightDriveSmart.setVelocity(50, percent);
-
-    LeftDriveSmart.spin(reverse);
-    RightDriveSmart.spin(reverse);
+    Drivetrain.setDriveVelocity(60, percent);
+    Drivetrain.drive(reverse);
   
-    //TODO: Fix values as per how far we need to move
-    wait(0.1, seconds);
-    LeftDriveSmart.stop();
-    RightDriveSmart.stop();
+    wait(AUTON_DRIVE_TIME_SEC, seconds);
 
-    wait(0.3, seconds);
     clampOn();
+    Drivetrain.stop();
 }
 
 
