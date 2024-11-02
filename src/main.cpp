@@ -66,11 +66,11 @@ void autonomous(void) {
 
     ElevatorGroup.stop();
 
-        Drivetrain.setDriveVelocity(70, percent);
+        Drivetrain.setDriveVelocity(40, percent);
         Drivetrain.drive(reverse);
 
     while (true) {
-        if((abs(getDistanceFromObjectBehind()-10) <= 4)) {
+        if((abs(getDistanceFromObjectBehind()-10) <= 5)) {
           break;
         }
      }
