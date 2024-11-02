@@ -21,40 +21,6 @@ const int DEADZONE = 10; // Adjust this value as needed
 const double TURN_MULTIPLER = 0.75; // Define turn multiplier as per your requirements
 const double AUTON_DRIVE_TIME_SEC = 1.5;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-;
-
 // define your global instances of motors and other devices here
 
 /*---------------------------------------------------------------------------*/
@@ -100,15 +66,22 @@ void autonomous(void) {
 
     ElevatorGroup.stop();
 
-    Drivetrain.setDriveVelocity(45, percent);
-    Drivetrain.drive(reverse);
-  
-    wait(AUTON_DRIVE_TIME_SEC, seconds);
+        Drivetrain.setDriveVelocity(70, percent);
+        Drivetrain.drive(reverse);
 
-    Drivetrain.setDriveVelocity(45, percent);
-    Drivetrain.drive(forward);
+    while (true) {
+        if((abs(getDistanceFromObjectBehind()-10) <= 4)) {
+          break;
+        }
+     }
 
-    wait(0.19, seconds);
+    Drivetrain.stop();
+    clampOn();
+
+    // Drivetrain.setDriveVelocity(45, percent);
+    // Drivetrain.drive(forward);
+
+    // wait(0.19, seconds);
 
     Drivetrain.stop();
 
