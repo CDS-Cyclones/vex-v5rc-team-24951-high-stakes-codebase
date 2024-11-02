@@ -111,18 +111,11 @@ void autonomous(void) {
     wait(0.19, seconds);
 
         Drivetrain.stop();
-  
-
-    wait(AUTON_DRIVE_TIME_SEC, seconds);
 
     clampOn();
-    Drivetrain.stop();
 
     ElevatorMotor.setVelocity(100, percent);
     ElevatorMotor.spin(reverse);
-
-    Drivetrain.setDriveVelocity(60, percent);
-    Drivetrain.drive(fwd);
 
     wait(2, seconds);
 
@@ -148,16 +141,16 @@ void usercontrol(void) {
   int32_t forward, turn;
   
   while (1) {
-    // This is the main execution loop for the user control program.
-    // Each time through the loop your program should update motor + servo
-    // values based on feedback from the joysticks.
+    // // This is the main execution loop for the user control program.
+    // // Each time through the loop your program should update motor + servo
+    // // values based on feedback from the joysticks.
 
-    // ........................................................................
-    // Insert user code here. This is where you use the joystick values to
-    // update your motors, etc.
-    // ........................................................................
+    // // ........................................................................
+    // // Insert user code here. This is where you use the joystick values to
+    // // update your motors, etc.
+    // // ........................................................................
 
-    // Changes turn speed based on float value below
+    // // Changes turn speed based on float value below
 
     // Read joystick positions
     forward = Controller.Axis3.position();
@@ -171,7 +164,7 @@ void usercontrol(void) {
       turn = 0;
     }
 
-    // Drive the robot using arcade control
+    // // Drive the robot using arcade control
     Drivetrain.arcade(forward, turn);
 
     // Control the clamp mechanism
@@ -193,21 +186,26 @@ void usercontrol(void) {
       ElevatorMotor.stop();
     }
 
-    // Print clamp status to the controller
-    // if (isClampOn()) {
-    //   Controller.Screen.print("Clamp: On");
-    // } else {
-    //   Controller.Screen.print("Clamp: Off");
-    // }
+    // // Print clamp status to the controller
+    // // if (isClampOn()) {
+    // //   Controller.Screen.print("Clamp: On");
+    // // } else {
+    // //   Controller.Screen.print("Clamp: Off");
+    // // }
 
-    // Print value from ultrasonic sensor
-    Controller.Screen.clearScreen();
-    Controller.Screen.setCursor(2, 0);
-    Controller.Screen.print(getDistanceFromObjectBehind());
+    // // Print value from ultrasonic sensor
+    // Controller.Screen.clearScreen();
+    // Controller.Screen.setCursor(2, 0);
+    // Controller.Screen.print(getDistanceFromObjectBehind());
 
-     if (abs(getDistanceFromObjectBehind()-10) <= 4) {
-       clampOn();
-     }
+    //  if (abs(getDistanceFromObjectBehind()-10) <= 4) {
+    //    clampOn();
+    //  }
+
+    // ElevatorMotor.setVelocity(150, percent);
+    // ElevatorMotor.spin(reverse);
+    // ElevatorMotor2.setVelocity(150, percent);
+    // ElevatorMotor2.spin(fwd);
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
