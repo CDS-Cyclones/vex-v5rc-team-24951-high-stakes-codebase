@@ -111,6 +111,8 @@ bool isClampOn() {
 void vexcodeInit(void) {
   //Calibrate inertial sensor **MUST BE STATIONARY**
   Inertial.calibrate(3);
+  // So we dont move during calibration
+  wait(3,seconds);
 
   // Print that the Inertial Sensor is calibrating while waiting for it to finish calibrating.
   while(Inertial.isCalibrating()){

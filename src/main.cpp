@@ -51,10 +51,26 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-  // ..........................................................................
-  // Insert autonomous user code here.
-  // ..........................................................................
+    // ..........................................................................
+    // Insert autonomous user code here.
+    // ..........................................................................
+
+
+    LeftDriveSmart.setVelocity(50, percent);
+    RightDriveSmart.setVelocity(50, percent);
+
+    LeftDriveSmart.spin(reverse);
+    RightDriveSmart.spin(reverse);
+  
+    //TODO: Fix values as per how far we need to move
+    wait(0.1, seconds);
+    LeftDriveSmart.stop();
+    RightDriveSmart.stop();
+
+    wait(0.3, seconds);
+    clampOn();
 }
+
 
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
