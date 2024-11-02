@@ -14,9 +14,11 @@ extern motor RightMiddleMotor;
 extern motor RightBackMotor;
 
 extern motor ElevatorMotor;
+extern motor ElevatorMotor2;
 
 extern motor_group LeftDriveSmart;
 extern motor_group RightDriveSmart;
+extern motor_group ElevatorGroup;
 
 extern drivetrain Drivetrain;
 
@@ -38,6 +40,12 @@ void clampOn(void);
  * Retract the clamp's actuator
  */
 void clampOff(void);
+
+/**
+ * Check whether the clamp is on
+ * @return true if the clamp is on, false otherwise
+ */
+bool isClampOn();
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

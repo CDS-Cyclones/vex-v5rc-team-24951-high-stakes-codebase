@@ -17,6 +17,9 @@ using namespace vex;
 // A global instance of competition
 competition Competition;
 
+const int DEADZONE = 10; // Adjust this value as needed
+const double TURN_MULTIPLER = 0.75; // Define turn multiplier as per your requirements
+
 // define your global instances of motors and other devices here
 
 /*---------------------------------------------------------------------------*/
@@ -65,6 +68,8 @@ void autonomous(void) {
 
 void usercontrol(void) {
   // User control code here, inside the loop
+  int32_t forward, turn;
+  
   while (1) {
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo
@@ -76,10 +81,23 @@ void usercontrol(void) {
     // ........................................................................
 
     // Changes turn speed based on float value below
-    float turnMultiplier = 0.75;
 
-    Drivetrain.arcade(Controller.Axis3.position(), turnMultiplier * Controller.Axis4.position());
+    // Read joystick positions
+    forward = Controller.Axis3.position();
+    turn = Controller.Axis1.position() * TURN_MULTIPLER;
 
+    // Apply deadzones
+    if (abs(forward) < DEADZONE) {
+      forward = 0;
+    }
+    if (abs(turn) < DEADZONE) {
+      turn = 0;
+    }
+
+    // Drive the robot using arcade control
+    Drivetrain.arcade(forward, turn);
+
+    // Control the clamp mechanism
     if (Controller.ButtonA.PRESSED) {
       if (isClampedOn)
         clampOff();
@@ -87,20 +105,22 @@ void usercontrol(void) {
         clampOn();
     }
 
-    if(Controller.ButtonX.PRESSED){
-      ElevatorMotor.setVelocity(60,percent);
-      ElevatorMotor.spin(forward);
-    } else if(Controller.ButtonB.PRESSED) {
-      ElevatorMotor.setVelocity(60,percent);
+    // Control the elevator motor
+    if (Controller.ButtonX.pressing()) {
+      ElevatorMotor.setVelocity(100, percent);
+      ElevatorMotor.spin(fwd);
+    } else if (Controller.ButtonB.pressing()) {
+      ElevatorMotor.setVelocity(100, percent);
       ElevatorMotor.spin(reverse);
-    }
-
-    if(Controller.ButtonX.PRESSED){
+    } else {
       ElevatorMotor.stop();
     }
 
-    if(Controller.ButtonB.PRESSED) {
-      ElevatorMotor.stop();
+    // Print clamp status to the controller
+    if (isClampOn()) {
+      Controller.Screen.print("Clamp: On");
+    } else {
+      Controller.Screen.print("Clamp: Off");
     }
 
     wait(20, msec); // Sleep the task for a short amount of time to

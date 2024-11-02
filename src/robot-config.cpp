@@ -36,6 +36,7 @@ const int32_t RIGHT_FRONT_MOTOR_PORT = PORT2;
 const int32_t RIGHT_MIDDLE_MOTOR_PORT = PORT4;
 const int32_t RIGHT_BACK_MOTOR_PORT = PORT6;
 const int32_t ELEVATOR_MOTOR_PORT = PORT7;
+const int32_t ELEVATOR_MOTOR2_PORT = PORT8;
 
 // WHETHER MOTORS NEED TO BE INVERTED
 const bool LEFT_FRONT_MOTOR_INVERTED = false;
@@ -45,6 +46,7 @@ const bool RIGHT_FRONT_MOTOR_INVERTED = true;
 const bool RIGHT_MIDDLE_MOTOR_INVERTED = true;
 const bool RIGHT_BACK_MOTOR_INVERTED = true;
 const bool ELEVATOR_MOTOR_INVERTED = false;
+const bool ELEVATOR_MOTOR2_INVERTED = false;
 
 // INERTIAL DEFINITION
 inertial Inertial = inertial(PORT15);
@@ -65,9 +67,11 @@ motor RightFrontMotor = motor(RIGHT_FRONT_MOTOR_PORT, DRIVETRAIN_MOTOR_GEAR_RATI
 motor RightMiddleMotor = motor(RIGHT_MIDDLE_MOTOR_PORT, DRIVETRAIN_MOTOR_GEAR_RATIO, RIGHT_MIDDLE_MOTOR_INVERTED);
 motor RightBackMotor = motor(RIGHT_BACK_MOTOR_PORT, DRIVETRAIN_MOTOR_GEAR_RATIO, RIGHT_BACK_MOTOR_INVERTED);
 motor ElevatorMotor = motor(ELEVATOR_MOTOR_PORT,ELEVATOR_MOTOR_GEAR_RATIO, ELEVATOR_MOTOR_INVERTED);
+motor ElevatorMotor2 = motor(ELEVATOR_MOTOR2_PORT, ELEVATOR_MOTOR_GEAR_RATIO, ELEVATOR_MOTOR_INVERTED);
 
 motor_group LeftDriveSmart = motor_group(LeftFrontMotor, LeftMiddleMotor, LeftBackMotor);
 motor_group RightDriveSmart = motor_group(RightFrontMotor, RightMiddleMotor, RightBackMotor);
+motor_group ElevatorGroup = motor_group(ElevatorMotor, ElevatorMotor2);
 
 drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, WHEEL_CIRCUMFERENCE, TRACK_WIDTH, WHEELBASE, DISTANCE_UNITS, EXTERNAL_GEAR_RATIO);
 
@@ -89,6 +93,14 @@ void clampOff(void) {
   ClampPneumatic.set(true);
 
   isClampedOn = false;
+}
+
+/**
+ * Check whether the clamp is on
+ * @return true if the clamp is on, false otherwise
+ */
+bool isClampOn() {
+  return isClampedOn;
 }
 
 /**
