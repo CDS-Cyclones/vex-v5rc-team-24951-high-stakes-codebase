@@ -100,7 +100,7 @@ void autonomous(void) {
 
     ElevatorGroup.stop();
 
-    Drivetrain.setDriveVelocity(60, percent);
+    Drivetrain.setDriveVelocity(45, percent);
     Drivetrain.drive(reverse);
   
     wait(AUTON_DRIVE_TIME_SEC, seconds);
@@ -110,7 +110,7 @@ void autonomous(void) {
 
     wait(0.19, seconds);
 
-        Drivetrain.stop();
+    Drivetrain.stop();
 
     clampOn();
 
@@ -176,14 +176,23 @@ void usercontrol(void) {
     }
 
     // Control the elevator motor
-    if (Controller.ButtonX.pressing()) {
-      ElevatorMotor.setVelocity(100, percent);
-      ElevatorMotor.spin(fwd);
-    } else if (Controller.ButtonB.pressing()) {
-      ElevatorMotor.setVelocity(100, percent);
-      ElevatorMotor.spin(reverse);
+    if (Controller.ButtonB.pressing()) {
+      // ElevatorMotor.setVelocity(100, percent);
+      // ElevatorMotor.spin(fwd);
+      ElevatorMotor.setVelocity(150, percent);
+    ElevatorMotor.spin(reverse);
+    ElevatorMotor2.setVelocity(150, percent);
+    ElevatorMotor2.spin(fwd);
+    } else if (Controller.ButtonX.pressing()) {
+      // ElevatorMotor.setVelocity(100, percent);
+      // ElevatorMotor.spin(reverse);
+            ElevatorMotor.setVelocity(150, percent);
+    ElevatorMotor.spin(fwd);
+    ElevatorMotor2.setVelocity(150, percent);
+    ElevatorMotor2.spin(reverse);
     } else if (! Controller.ButtonX.pressing() && !Controller.ButtonB.pressing()) {
       ElevatorMotor.stop();
+      ElevatorMotor2.stop();
     }
 
     // // Print clamp status to the controller
