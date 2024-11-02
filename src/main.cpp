@@ -87,10 +87,11 @@ void pre_auton(void) {
 
 void autonomous(void) {
 
-  clampOff();
     // ..........................................................................
     // Insert autonomous user code here.
     // ..........................................................................
+
+    clampOff();
 
     ElevatorMotor.setVelocity(100, percent);
     ElevatorMotor.spin(fwd);
@@ -203,6 +204,10 @@ void usercontrol(void) {
     Controller.Screen.clearScreen();
     Controller.Screen.setCursor(2, 0);
     Controller.Screen.print(getDistanceFromObjectBehind());
+
+     if (abs(getDistanceFromObjectBehind()-10) <= 4) {
+       clampOn();
+     }
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
