@@ -56,6 +56,13 @@ void autonomous(void) {
     // Insert autonomous user code here.
     // ..........................................................................
 
+    ElevatorMotor.setVelocity(100, percent);
+    ElevatorMotor.spin(fwd);
+
+    wait(1, seconds);
+
+    ElevatorGroup.stop();
+
     Drivetrain.setDriveVelocity(60, percent);
     Drivetrain.drive(reverse);
   
@@ -63,6 +70,13 @@ void autonomous(void) {
 
     clampOn();
     Drivetrain.stop();
+
+    ElevatorMotor.setVelocity(100, percent);
+    ElevatorMotor.spin(reverse);
+
+        wait(2, seconds);
+
+        ElevatorGroup.stop();
 }
 
 
