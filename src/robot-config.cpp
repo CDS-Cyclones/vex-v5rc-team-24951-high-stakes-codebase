@@ -107,7 +107,7 @@ bool isClampOn() {
 }
 
 double getDistanceFromObjectBehind() {
-  return Sonar.distance(mm);
+  return Sonar.distance(mm) / 10.0;
 }
 
 /**

@@ -19,7 +19,41 @@ competition Competition;
 
 const int DEADZONE = 10; // Adjust this value as needed
 const double TURN_MULTIPLER = 0.75; // Define turn multiplier as per your requirements
-const double AUTON_DRIVE_TIME_SEC = 1;
+const double AUTON_DRIVE_TIME_SEC = 1.5;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
 
 // define your global instances of motors and other devices here
 
@@ -52,6 +86,8 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
+
+  clampOff();
     // ..........................................................................
     // Insert autonomous user code here.
     // ..........................................................................
@@ -59,7 +95,7 @@ void autonomous(void) {
     ElevatorMotor.setVelocity(100, percent);
     ElevatorMotor.spin(fwd);
 
-    wait(1, seconds);
+    wait(2, seconds);
 
     ElevatorGroup.stop();
 
@@ -68,15 +104,31 @@ void autonomous(void) {
   
     wait(AUTON_DRIVE_TIME_SEC, seconds);
 
+    Drivetrain.setDriveVelocity(45, percent);
+    Drivetrain.drive(forward);
+
+    wait(0.19, seconds);
+
+        Drivetrain.stop();
+  
+
+    wait(AUTON_DRIVE_TIME_SEC, seconds);
+
     clampOn();
     Drivetrain.stop();
 
     ElevatorMotor.setVelocity(100, percent);
     ElevatorMotor.spin(reverse);
 
-        wait(2, seconds);
+    Drivetrain.setDriveVelocity(60, percent);
+    Drivetrain.drive(fwd);
 
-        ElevatorGroup.stop();
+    wait(2, seconds);
+
+    Drivetrain.stop();
+
+    wait(4, seconds);
+    ElevatorGroup.stop();
 }
 
 
@@ -136,18 +188,19 @@ void usercontrol(void) {
     } else if (Controller.ButtonB.pressing()) {
       ElevatorMotor.setVelocity(100, percent);
       ElevatorMotor.spin(reverse);
-    } else {
+    } else if (! Controller.ButtonX.pressing() && !Controller.ButtonB.pressing()) {
       ElevatorMotor.stop();
     }
 
     // Print clamp status to the controller
-    if (isClampOn()) {
-      Controller.Screen.print("Clamp: On");
-    } else {
-      Controller.Screen.print("Clamp: Off");
-    }
+    // if (isClampOn()) {
+    //   Controller.Screen.print("Clamp: On");
+    // } else {
+    //   Controller.Screen.print("Clamp: Off");
+    // }
 
     // Print value from ultrasonic sensor
+    Controller.Screen.clearScreen();
     Controller.Screen.setCursor(2, 0);
     Controller.Screen.print(getDistanceFromObjectBehind());
 
@@ -161,11 +214,13 @@ void usercontrol(void) {
 //
 int main() {
   // Set up callbacks for autonomous and driver control periods.
-  Competition.autonomous(autonomous);
-  Competition.drivercontrol(usercontrol);
+  // Competition.autonomous(autonomous);
+  // Competition.drivercontrol(usercontrol);
 
   // Run the pre-autonomous function.
   pre_auton();
+
+  usercontrol();
 
   // Prevent main from exiting with an infinite loop.
   while (true) {
