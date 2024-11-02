@@ -51,9 +51,12 @@ const bool ELEVATOR_MOTOR2_INVERTED = false;
 // INERTIAL DEFINITION
 inertial Inertial = inertial(PORT15);
 
+triport::port SONAR_PORT = Brain.ThreeWirePort.A;
 triport::port CLAMP_PNEUMATIC_PORT = Brain.ThreeWirePort.E;
 
 digital_out ClampPneumatic = digital_out(CLAMP_PNEUMATIC_PORT);
+
+sonar Sonar = sonar(SONAR_PORT);
 
 /**
  * Whether the clamp is on
@@ -103,6 +106,10 @@ bool isClampOn() {
   return isClampedOn;
 }
 
+double getDistanceFromObjectBehind() {
+  return Sonar.distance(mm);
+}
+
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
  *
@@ -132,6 +139,6 @@ void vexcodeInit(void) {
   // Resets heading of inertial to zero
   Inertial.resetHeading();
 
-  // Retract clamp actuator at launch
-  clampOff();
+  // Retract clamp actuator at launch TODO: if autonomous works - don't need
+  // clampOff();
 }

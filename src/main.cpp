@@ -147,6 +147,10 @@ void usercontrol(void) {
       Controller.Screen.print("Clamp: Off");
     }
 
+    // Print value from ultrasonic sensor
+    Controller.Screen.setCursor(2, 0);
+    Controller.Screen.print(getDistanceFromObjectBehind());
+
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }

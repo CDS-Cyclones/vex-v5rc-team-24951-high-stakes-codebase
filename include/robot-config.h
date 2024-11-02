@@ -26,6 +26,8 @@ extern controller Controller;
 
 extern inertial Inertial;
 
+extern sonar Sonar;
+
 /**
  * Whether the clamp is on
  */
@@ -46,6 +48,8 @@ void clampOff(void);
  * @return true if the clamp is on, false otherwise
  */
 bool isClampOn();
+
+double getDistanceFromObjectBehind();
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
