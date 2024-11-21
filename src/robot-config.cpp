@@ -9,7 +9,8 @@ brain Brain;
 const distanceUnits DISTANCE_UNITS = mm;
 
 const gearSetting DRIVETRAIN_MOTOR_GEAR_RATIO = ratio18_1;
-const gearSetting ELEVATOR_MOTOR_GEAR_RATIO = ratio18_1;
+const gearSetting INTAKE_MOTOR_GEAR_RATIO = ratio18_1;
+const gearSetting CONVEYOR_MOTOR_GEAR_RATIO = ratio18_1;
 const double WHEEL_CIRCUMFERENCE = 3.25 * atan(1) * 4;
 
 /**
@@ -29,24 +30,21 @@ const double WHEELBASE = 127;
 const int EXTERNAL_GEAR_RATIO = 1;
 
 // DRIVETRAIN MOTORS' PORTS ON BRAIN
-const int32_t LEFT_FRONT_MOTOR_PORT = PORT1;
-const int32_t LEFT_MIDDLE_MOTOR_PORT = PORT3;
-const int32_t LEFT_BACK_MOTOR_PORT = PORT5;
-const int32_t RIGHT_FRONT_MOTOR_PORT = PORT2;
-const int32_t RIGHT_MIDDLE_MOTOR_PORT = PORT4;
-const int32_t RIGHT_BACK_MOTOR_PORT = PORT6;
-const int32_t ELEVATOR_MOTOR_PORT = PORT7;
-const int32_t ELEVATOR_MOTOR2_PORT = PORT10;
+const int32_t LEFT_FRONT_MOTOR_PORT = PORT20;
+const int32_t LEFT_MIDDLE_MOTOR_PORT = PORT18;
+const int32_t RIGHT_FRONT_MOTOR_PORT = PORT19;
+const int32_t RIGHT_MIDDLE_MOTOR_PORT = PORT17;
+const int32_t INTAKE_MOTOR_PORT = PORT9;
+const int32_t CONVEYOR_MOTOR_PORT = PORT10; 
+
 
 // WHETHER MOTORS NEED TO BE INVERTED
 const bool LEFT_FRONT_MOTOR_INVERTED = false;
 const bool LEFT_MIDDLE_MOTOR_INVERTED = false;
-const bool LEFT_BACK_MOTOR_INVERTED = false;
 const bool RIGHT_FRONT_MOTOR_INVERTED = true;
 const bool RIGHT_MIDDLE_MOTOR_INVERTED = true;
-const bool RIGHT_BACK_MOTOR_INVERTED = true;
-const bool ELEVATOR_MOTOR_INVERTED = false;
-const bool ELEVATOR_MOTOR2_INVERTED = true;
+const bool INTAKE_MOTOR_INVERTED = false; //TODO
+const bool CONVEYOR_MOTOR_INVERTED = true; //TODO
 
 // INERTIAL DEFINITION
 inertial Inertial = inertial(PORT15);
@@ -65,16 +63,14 @@ bool isClampedOn;
 
 motor LeftFrontMotor = motor(LEFT_FRONT_MOTOR_PORT, DRIVETRAIN_MOTOR_GEAR_RATIO, LEFT_FRONT_MOTOR_INVERTED);
 motor LeftMiddleMotor = motor(LEFT_MIDDLE_MOTOR_PORT, DRIVETRAIN_MOTOR_GEAR_RATIO, LEFT_MIDDLE_MOTOR_INVERTED);
-motor LeftBackMotor = motor(LEFT_BACK_MOTOR_PORT, DRIVETRAIN_MOTOR_GEAR_RATIO, LEFT_BACK_MOTOR_INVERTED);
 motor RightFrontMotor = motor(RIGHT_FRONT_MOTOR_PORT, DRIVETRAIN_MOTOR_GEAR_RATIO, RIGHT_FRONT_MOTOR_INVERTED);
 motor RightMiddleMotor = motor(RIGHT_MIDDLE_MOTOR_PORT, DRIVETRAIN_MOTOR_GEAR_RATIO, RIGHT_MIDDLE_MOTOR_INVERTED);
-motor RightBackMotor = motor(RIGHT_BACK_MOTOR_PORT, DRIVETRAIN_MOTOR_GEAR_RATIO, RIGHT_BACK_MOTOR_INVERTED);
-motor ElevatorMotor = motor(ELEVATOR_MOTOR_PORT,ELEVATOR_MOTOR_GEAR_RATIO, ELEVATOR_MOTOR_INVERTED);
-motor ElevatorMotor2 = motor(ELEVATOR_MOTOR2_PORT, ELEVATOR_MOTOR_GEAR_RATIO, ELEVATOR_MOTOR_INVERTED);
+motor IntakeMotor = motor(INTAKE_MOTOR_PORT, INTAKE_MOTOR_GEAR_RATIO, INTAKE_MOTOR_INVERTED);
+motor ConveyorMotor = motor(CONVEYOR_MOTOR_PORT, CONVEYOR_MOTOR_GEAR_RATIO, CONVEYOR_MOTOR_INVERTED);
 
-motor_group LeftDriveSmart = motor_group(LeftFrontMotor, LeftMiddleMotor, LeftBackMotor);
-motor_group RightDriveSmart = motor_group(RightFrontMotor, RightMiddleMotor, RightBackMotor);
-motor_group ElevatorGroup = motor_group(ElevatorMotor, ElevatorMotor2);
+motor_group LeftDriveSmart = motor_group(LeftFrontMotor, LeftMiddleMotor);
+motor_group RightDriveSmart = motor_group(RightFrontMotor, RightMiddleMotor);
+motor_group DeilveryMechanism = motor_group(IntakeMotor, ConveyorMotor);
 
 drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, WHEEL_CIRCUMFERENCE, TRACK_WIDTH, WHEELBASE, DISTANCE_UNITS, EXTERNAL_GEAR_RATIO);
 
