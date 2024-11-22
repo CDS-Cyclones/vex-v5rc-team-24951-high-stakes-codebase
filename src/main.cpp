@@ -127,7 +127,7 @@ void usercontrol(void) {
 
     // Read joystick positions
     forward = Controller.Axis3.position();
-    turn = Controller.Axis1.position() * TURN_MULTIPLER;
+    turn = Controller.Axis4.position() * TURN_MULTIPLER;
 
     // Apply deadzones
     if (abs(forward) < DEADZONE) {
