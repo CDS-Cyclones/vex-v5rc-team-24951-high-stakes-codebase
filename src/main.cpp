@@ -57,45 +57,45 @@ void autonomous(void) {
     // Insert autonomous user code here.
     // ..........................................................................
 
-    clampOff();
+    // clampOff();
 
-    ElevatorMotor.setVelocity(100, percent);
-    ElevatorMotor.spin(fwd);
+    // ElevatorMotor.setVelocity(100, percent);
+    // ElevatorMotor.spin(fwd);
 
-    wait(2, seconds);
+    // wait(2, seconds);
 
-    ElevatorGroup.stop();
+    // ElevatorGroup.stop();
 
-        Drivetrain.setDriveVelocity(40, percent);
-        Drivetrain.drive(reverse);
+    //     Drivetrain.setDriveVelocity(40, percent);
+    //     Drivetrain.drive(reverse);
 
-    while (true) {
-        if((abs(getDistanceFromObjectBehind()-10) <= 5)) {
-          break;
-        }
-     }
+    // while (true) {
+    //     if((abs(getDistanceFromObjectBehind()-10) <= 5)) {
+    //       break;
+    //     }
+    //  }
 
-    Drivetrain.stop();
-    clampOn();
+    // Drivetrain.stop();
+    // clampOn();
 
-    // Drivetrain.setDriveVelocity(45, percent);
-    // Drivetrain.drive(forward);
+    // // Drivetrain.setDriveVelocity(45, percent);
+    // // Drivetrain.drive(forward);
 
-    // wait(0.19, seconds);
+    // // wait(0.19, seconds);
 
-    Drivetrain.stop();
+    // Drivetrain.stop();
 
-    clampOn();
+    // clampOn();
 
-    ElevatorMotor.setVelocity(100, percent);
-    ElevatorMotor.spin(reverse);
+    // ElevatorMotor.setVelocity(100, percent);
+    // ElevatorMotor.spin(reverse);
 
-    wait(2, seconds);
+    // wait(2, seconds);
 
-    Drivetrain.stop();
+    // Drivetrain.stop();
 
-    wait(4, seconds);
-    ElevatorGroup.stop();
+    // wait(4, seconds);
+    // ElevatorGroup.stop();
 }
 
 
@@ -114,16 +114,16 @@ void usercontrol(void) {
   int32_t forward, turn;
   
   while (1) {
-    // // This is the main execution loop for the user control program.
-    // // Each time through the loop your program should update motor + servo
-    // // values based on feedback from the joysticks.
+    // This is the main execution loop for the user control program.
+    // Each time through the loop your program should update motor + servo
+    // values based on feedback from the joysticks.
 
-    // // ........................................................................
-    // // Insert user code here. This is where you use the joystick values to
-    // // update your motors, etc.
-    // // ........................................................................
+    // ........................................................................
+    // Insert user code here. This is where you use the joystick values to
+    // update your motors, etc.
+    // ........................................................................
 
-    // // Changes turn speed based on float value below
+    // Changes turn speed based on float value below
 
     // Read joystick positions
     forward = Controller.Axis3.position();
@@ -137,36 +137,62 @@ void usercontrol(void) {
       turn = 0;
     }
 
-    // // Drive the robot using arcade control
+    // Drive the robot using arcade control
     Drivetrain.arcade(forward, turn);
 
-    // Control the clamp mechanism
-    if (Controller.ButtonA.PRESSED) {
-      if (isClampedOn)
-        clampOff();
-      else 
-        clampOn();
+    // // Control the clamp mechanism
+    // if (Controller.ButtonA.PRESSED) {
+    //   if (isClampedOn)
+    //     clampOff();
+    //   else 
+    //     clampOn();
+    // }
+
+    // // Control the elevator motor
+    // if (Controller.ButtonB.pressing()) {
+    //   // ElevatorMotor.setVelocity(100, percent);
+    //   // ElevatorMotor.spin(fwd);
+    //   ElevatorMotor.setVelocity(150, percent);
+    // ElevatorMotor.spin(reverse);
+    // ElevatorOuttakeMotor.setVelocity(150,percent);
+    // ElevatorOuttakeMotor.spin(fwd);
+    // } else if (Controller.ButtonX.pressing()) {
+    //   // ElevatorMotor.setVelocity(100, percent);
+    //   // ElevatorMotor.spin(reverse);
+    // ElevatorMotor.setVelocity(150, percent);
+    // ElevatorMotor.spin(fwd);
+    // } else if (! Controller.ButtonX.pressing() && !Controller.ButtonB.pressing()) {
+    //   ElevatorMotor.stop();
+    //   ElevatorMotor2.stop();
+    //   ElevatorOuttakeMotor.stop();
+    // }
+
+
+    if(Controller.ButtonX.pressing()){
+      IntakeMotor.setVelocity(100, percent);
+      IntakeMotor.spin(fwd);
+      ConveyorMotor.setVelocity(80, percent);
+      ConveyorMotor.spin(fwd);
+    } else if(!Controller.ButtonX.pressing() && Controller.ButtonB.pressing()) {
+      IntakeMotor.setVelocity(100, percent);
+      IntakeMotor.spin(reverse);
+      ConveyorMotor.setVelocity(80, percent);
+      ConveyorMotor.spin(reverse);
+    } else if(!Controller.ButtonX.pressing() && !Controller.ButtonB.pressing()) {
+      IntakeMotor.stop();
+      ConveyorMotor.stop();
     }
 
-    // Control the elevator motor
-    if (Controller.ButtonB.pressing()) {
-      // ElevatorMotor.setVelocity(100, percent);
-      // ElevatorMotor.spin(fwd);
-      ElevatorMotor.setVelocity(150, percent);
-    ElevatorMotor.spin(reverse);
-    ElevatorMotor2.setVelocity(150, percent);
-    ElevatorMotor2.spin(fwd);
-    } else if (Controller.ButtonX.pressing()) {
-      // ElevatorMotor.setVelocity(100, percent);
-      // ElevatorMotor.spin(reverse);
-            ElevatorMotor.setVelocity(150, percent);
-    ElevatorMotor.spin(fwd);
-    ElevatorMotor2.setVelocity(150, percent);
-    ElevatorMotor2.spin(reverse);
-    } else if (! Controller.ButtonX.pressing() && !Controller.ButtonB.pressing()) {
-      ElevatorMotor.stop();
-      ElevatorMotor2.stop();
-    }
+    // ElevatorOuttakeMotor.spin(reverse);
+    // ElevatorMotor2.setVelocity(100, percent);
+    // ElevatorMotor2.spin(fwd);
+    //     ElevatorMotor.setVelocity(60, percent);
+    // ElevatorMotor.spin(fwd);
+    // }
+    // else if(!(Controller.ButtonY.pressing())){
+    //   ElevatorMotor2.stop();
+    //   ElevatorMotor.stop();
+    // }
 
     // // Print clamp status to the controller
     // // if (isClampOn()) {

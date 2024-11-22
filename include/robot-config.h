@@ -13,12 +13,10 @@ extern motor RightFrontMotor;
 extern motor RightMiddleMotor;
 extern motor RightBackMotor;
 
-extern motor ElevatorMotor;
-extern motor ElevatorMotor2;
+extern motor IntakeMotor;
+extern motor ConveyorMotor;
 
-extern motor_group LeftDriveSmart;
-extern motor_group RightDriveSmart;
-extern motor_group ElevatorGroup;
+extern motor_group DeilveryMechanism;
 
 extern drivetrain Drivetrain;
 
